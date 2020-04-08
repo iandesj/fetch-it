@@ -7,29 +7,45 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FetchImageComponent implements OnInit {
   imageUrl: string;
-  isLoading: boolean = false;
-  isErrored: boolean = false;
+  machine: any;
+  initialState: string;
+  fetchState: string;
+  commands: any;
 
-  constructor() { }
+  constructor() {
+    this.machine = {
+      idle: {
+        CLICK: 'loading',
+      },
+      loading: {
+        RESOLVE: 'fetch',
+        REJECT: 'error',
+      },
+      fetch: {
+        CLICK: 'loading',
+      },
+      error: {
+        CLICK: 'loading',
+      },
+    };
+    this.initialState = 'idle';
+    this.fetchState = this.initialState;
+    this.commands = {
+      loading: this.fetchImage.bind(this),
+    };
+  }
 
   ngOnInit(): void {
   }
 
   fetchImage() {
-    this.isLoading = true;
-    this.isErrored = false;
     fetch('https://picsum.photos/1000')
       .then(image => {
         this.randomlyTriggerError();
-
         this.imageUrl = image.url
+        this.transition('RESOLVE');
       })
-      .catch(error => {
-        this.isErrored = true;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
+      .catch(_ => this.transition('REJECT'));
   }
 
   private randomlyTriggerError() {
@@ -38,6 +54,21 @@ export class FetchImageComponent implements OnInit {
     if (random <= 1) {
       throw new Error('An error occured in your fetch for an image');
     }
+  }
+
+  transition(action: string) {
+    const nextState = this.machine[this.fetchState][action];
+    const command = this.commands[nextState];
+
+    console.info({
+      fetchState: this.fetchState,
+      action,
+      nextState,
+      command,
+    });
+
+    this.fetchState = nextState;
+    command && command();
   }
 
 }
