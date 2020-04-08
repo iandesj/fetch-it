@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FetchImageComponent } from './fetch-image/fetch-image.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FetchImageComponent
   ],
   imports: [
     BrowserModule,
