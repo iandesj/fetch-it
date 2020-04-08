@@ -15,6 +15,19 @@ export class FetchImageComponent implements OnInit {
 
   fetchImage() {
     fetch('https://picsum.photos/1000')
-      .then(image => { this.imageUrl = image.url });
+      .then(image => {
+        this.randomlyTriggerError();
+
+        this.imageUrl = image.url
+      });
   }
+
+  private randomlyTriggerError() {
+    const random = Math.floor(Math.random() * 10);
+
+    if (random <= 1) {
+      throw new Error('An error occured in your fetch for an image');
+    }
+  }
+
 }
