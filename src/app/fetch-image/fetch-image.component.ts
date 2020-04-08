@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FetchImageComponent implements OnInit {
   imageUrl: string;
+  isLoading: boolean = false;
+  isErrored: boolean = false;
 
   constructor() { }
 
@@ -14,11 +16,19 @@ export class FetchImageComponent implements OnInit {
   }
 
   fetchImage() {
+    this.isLoading = true;
+    this.isErrored = false;
     fetch('https://picsum.photos/1000')
       .then(image => {
         this.randomlyTriggerError();
 
         this.imageUrl = image.url
+      })
+      .catch(error => {
+        this.isErrored = true;
+      })
+      .finally(() => {
+        this.isLoading = false;
       });
   }
 

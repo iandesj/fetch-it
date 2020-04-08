@@ -1,6 +1,6 @@
 <div class="container">
     <div class="image-and-button">
         <img [src]="imageUrl" alt="An Image">
-        <button type="button" class="button is-primary" (click)="fetchImage()">Fetch Image</button>
+        <button type="button" class="button is-primary" [ngClass]="{'is-loading': isLoading}" (click)="fetchImage()">{{isErrored ? 'Retry Fetch?' : 'Fetch Image'}}</button>
     </div>
 </div>
