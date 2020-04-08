@@ -4,6 +4,7 @@
         <div *ngIf="fetchState === 'error'" class="content">
             <h1>Error: Sorry bruh, image could not be fetched!</h1>
         </div>
-        <button type="button" class="button is-primary" [ngClass]="{'is-loading': fetchState === 'loading'}" (click)="transition('CLICK')">{{buttonText[fetchState]}}</button>
+        <button type="button" class="button is-primary" [ngClass]="{'is-loading': fetchState === 'loading'}"
+            (click)="transition('CLICK')">{{buttonText[fetchState]}}</button>
     </div>
 </div>
