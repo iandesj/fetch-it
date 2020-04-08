@@ -11,6 +11,7 @@ export class FetchImageComponent implements OnInit {
   initialState: string;
   fetchState: string;
   commands: any;
+  buttonText: any;
 
   constructor() {
     this.machine = {
@@ -32,6 +33,12 @@ export class FetchImageComponent implements OnInit {
     this.fetchState = this.initialState;
     this.commands = {
       loading: this.fetchImage.bind(this),
+    };
+    this.buttonText = {
+      idle: 'Fetch image',
+      loading: 'Loading...',
+      error: 'Fetch fail, retry?',
+      fetch: 'Fetch another image'
     };
   }
 
